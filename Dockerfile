@@ -1,5 +1,11 @@
-# stage 1
-FROM node:19-alpine as build
-
-# change into a folder called /app
+FROM openjdk:11
+ 
 WORKDIR /app
+ 
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:go-offline
+ 
+COPY src ./src
+ 
+CMD ["./mvnw", "spring-boot:run"]
